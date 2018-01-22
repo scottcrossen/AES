@@ -26,8 +26,10 @@ while true; do
 	fi
 	sleep ${SLEEPAMNT} && glide up && test &
 	PID1=$!
+	echo -e "\nBuilding release."
+	go install aes
+	echo -e "\nBuilding Finished."
 	inotifywait -e modify -e delete -e create -e attrib ./* --exclude vendor
-	go install main
 done &
 PID2=$!
 
