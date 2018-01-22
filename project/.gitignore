@@ -1,0 +1,5 @@
+/bin
+/rel
+/pkg
+src/vendor
+src/glide.lock
