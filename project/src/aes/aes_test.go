@@ -144,8 +144,8 @@ func compare(a, b []byte) (bool, error) {
   if len(a) != len(b) {
     return false, errors.New("lengths differ")
   }
-  for i, v := range a {
-    if v != b[i] {
+  for i, comparison := range a {
+    if comparison != b[i] {
       return false, errors.New(fmt.Sprintf("error at index %d", i))
     }
   }

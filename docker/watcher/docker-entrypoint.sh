@@ -27,7 +27,9 @@ while true; do
 	sleep ${SLEEPAMNT} && glide up && test &
 	PID1=$!
 	echo -e "\nBuilding release."
-	go install aes
+	go install main
+	mkdir ../rel > /dev/null 2>&1
+	cp ../bin/main ../rel/main
 	echo -e "\nBuilding Finished."
 	inotifywait -e modify -e delete -e create -e attrib ./* --exclude vendor
 done &

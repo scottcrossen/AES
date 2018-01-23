@@ -6,8 +6,8 @@ import (
 )
 
 func Decrypt(input []byte, key []byte) []byte {
-  Log(fmt.Sprintf("\nCIPHERTEXT:\t%x", input))
-  Log(fmt.Sprintf("KEY:\t\t%x", key))
+  Log(fmt.Sprintf("\nCIPHERTEXT:\t\t%x", input))
+  Log(fmt.Sprintf("KEY:\t\t\t%x", key))
   Log("INVERSE CIPHER (DECRYPT):")
   keySchedule := keyExpansion(key)
   Nr := len(keySchedule) / Nb - 1
@@ -49,34 +49,34 @@ func Decrypt(input []byte, key []byte) []byte {
 
 func shiftRowsInv(state [][]byte, Nb int) {
   temp := make([]byte, 4)
-  for r := 1; r < 4; r++ {
-    for c := 0; c < 4; c++ {
-      temp[c] = state[r][(4 + c - r) % Nb]
+  for row := 1; row < 4; row++ {
+    for col := 0; col < 4; col++ {
+      temp[col] = state[row][(4 + col - row) % Nb]
     }
-    for c := 0; c < 4; c++ {
-      state[r][c] = temp[c]
+    for col := 0; col < 4; col++ {
+      state[row][col] = temp[col]
     }
   }
 }
 
 func subBytesInv(state [][]byte, Nb int) {
-  for r := 0; r < 4; r++ {
-    for c := 0; c < Nb; c++ {
-      state[r][c] = isbox[state[r][c]]
+  for row := 0; row < 4; row++ {
+    for col := 0; col < Nb; col++ {
+      state[row][col] = isbox[state[row][col]]
     }
   }
 }
 
 func mixColumnsInv(state [][]byte, Nb int) {
-  a := make([]byte, 4)
+  temp := make([]byte, 4)
   for i := 0; i < 4; i++ {
-    a[0] = state[0][i]
-    a[1] = state[1][i]
-    a[2] = state[2][i]
-    a[3] = state[3][i]
-    state[0][i] = gfMul(0x0E, a[0]) ^ gfMul(0x0B, a[1]) ^ gfMul(0x0D, a[2]) ^ gfMul(0x09, a[3])
-    state[1][i] = gfMul(0x0E, a[1]) ^ gfMul(0x0B, a[2]) ^ gfMul(0x0D, a[3]) ^ gfMul(0x09, a[0])
-    state[2][i] = gfMul(0x0E, a[2]) ^ gfMul(0x0B, a[3]) ^ gfMul(0x0D, a[0]) ^ gfMul(0x09, a[1])
-    state[3][i] = gfMul(0x0E, a[3]) ^ gfMul(0x0B, a[0]) ^ gfMul(0x0D, a[1]) ^ gfMul(0x09, a[2])
+    temp[0] = state[0][i]
+    temp[1] = state[1][i]
+    temp[2] = state[2][i]
+    temp[3] = state[3][i]
+    state[0][i] = ffMultiply(0x0E, temp[0]) ^ ffMultiply(0x0B, temp[1]) ^ ffMultiply(0x0D, temp[2]) ^ ffMultiply(0x09, temp[3])
+    state[1][i] = ffMultiply(0x0E, temp[1]) ^ ffMultiply(0x0B, temp[2]) ^ ffMultiply(0x0D, temp[3]) ^ ffMultiply(0x09, temp[0])
+    state[2][i] = ffMultiply(0x0E, temp[2]) ^ ffMultiply(0x0B, temp[3]) ^ ffMultiply(0x0D, temp[0]) ^ ffMultiply(0x09, temp[1])
+    state[3][i] = ffMultiply(0x0E, temp[3]) ^ ffMultiply(0x0B, temp[0]) ^ ffMultiply(0x0D, temp[1]) ^ ffMultiply(0x09, temp[2])
   }
 }

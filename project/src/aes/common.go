@@ -5,21 +5,29 @@ import (
   "math"
 )
 
-func gfMul(a, b byte) byte {
-  var prod byte = 0
-  var h byte
+func ffMultiply(a, b byte) byte {
+  var product byte = 0
   for i := 0; i < 8; i++ {
     if (b & 0x01) != 0 {
-      prod ^= a
+      product ^= a
     }
-    h = a >> 7
-    a <<= 1
-    if h != 0 {
-      a ^= 0x1B
-    }
+    a = xTime(a)
     b >>= 1
   }
-  return prod
+  return product
+}
+
+func ffAdd(a, b byte) byte {
+  return a ^ b
+}
+
+func xTime(a byte) byte {
+  temp := a >> 7
+  a <<= 1
+  if temp != 0 {
+    a ^= 0x1B
+  }
+  return a
 }
 
 func addRoundKey(state [][]byte, keySchedule [][]byte, round int, Nb int) {
