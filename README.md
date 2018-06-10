@@ -4,11 +4,7 @@ A Go implementation of the AES algorithm.
 
 ### Description
 
-I originally built this project to pass off the requirements for a class assignment.
-
-### Instructions
-
-A test driver is supplied. This tests the code to verify that it passes the requirements for the given assignment.
+I originally built this project to pass off the requirements for a class assignment. A docker-build system is included for cross-platform development and isolation. It also faciliates the rebuilding process whenever a change is made to source files.
 
 ### Contributors
 
