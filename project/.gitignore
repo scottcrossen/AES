@@ -1,5 +1,6 @@
 /bin
 /rel
+/tmp
 /pkg
 src/vendor
 src/glide.lock
